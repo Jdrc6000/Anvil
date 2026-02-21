@@ -163,6 +163,12 @@ class Lexer:
                 tokens.append(self.code_block())
                 continue
             
+            if self.text[self.pos:self.pos + 3] == "---" and (self.pos + 3 >= len(self.text) or self.text[self.pos + 3] == "\n"):
+                for _ in range(3):
+                    self.advance()
+                tokens.append(Token(type=TokenType.HR))
+                continue
+            
             content = self.read_line()
             if content:
                 tokens.append(Token(

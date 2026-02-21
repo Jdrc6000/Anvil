@@ -67,3 +67,7 @@ class InlineCode(Node):
 @dataclass
 class Text(Node):
     value: str
+
+@dataclass
+class HorizontalRule(Node):
+    pass

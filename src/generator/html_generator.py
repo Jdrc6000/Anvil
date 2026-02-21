@@ -60,7 +60,11 @@ class Generator:
         elif isinstance(node, Image):
             return f'<img src="{node.src}" alt="{node.alt}">'
         
+        elif isinstance(node, HorizontalRule):
+            return "<hr>\n"
+        
         elif isinstance(node, Text):
             return node.value
+        
         else:
             return ""
