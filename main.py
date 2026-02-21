@@ -5,7 +5,7 @@ from src.generator.html_generator import Generator
 markdown = """
 **bold with *italics inside* it**
 ```python
-print("hello chat")
+print("hello")
 ```
 """
 lexer = Lexer(markdown)

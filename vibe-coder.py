@@ -8,12 +8,14 @@ full = ""
 total_loc = 0
 total_code_loc = 0 # uses content_text instead of filtered_content
 
-for file_path in sorted(main_path.rglob("*.py")):
+included_extensions = (".py", ".html", ".css", ".js", ".md")
+
+for file_path in sorted(main_path.rglob("*")):  # get all files
+    if file_path.suffix.lower() not in included_extensions:
+        continue  # skip files not in the list
     if file_path.name == txt_path.name or file_path.name == "vibe-coder.py" or file_path.name == "__init__.py":
         continue
     if any(part == ".venv" for part in file_path.parts):
-        continue
-    if file_path.name == "test_suite.py":
         continue
 
     content_text = file_path.read_text(encoding="utf-8")

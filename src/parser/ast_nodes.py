@@ -34,6 +34,7 @@ class ListItem(Node):
 class List(Node):
     items: TypingList[ListItem]
 
+@dataclass
 class OrderedListItem(Node):
     children: TypingList[Node]
 

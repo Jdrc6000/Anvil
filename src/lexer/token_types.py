@@ -15,3 +15,4 @@ class TokenType(Enum):
     TEXT = auto()
     BLANK_LINE = auto()
     EOF = auto()
+    HR = auto()
