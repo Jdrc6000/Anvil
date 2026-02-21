@@ -34,6 +34,17 @@ class ListItem(Node):
 class List(Node):
     items: TypingList[ListItem]
 
+class OrderedListItem(Node):
+    children: TypingList[Node]
+
+@dataclass
+class OrderedList(Node):
+    items: TypingList[OrderedListItem]
+
+@dataclass
+class Blockquote(Node):
+    children: TypingList[Node]
+
 @dataclass
 class Link(Node):
     text: str
@@ -48,6 +59,10 @@ class Image(Node):
 class CodeBlock(Node):
     language: str
     children: TypingList[Node]
+
+@dataclass
+class InlineCode(Node):
+    value: str
 
 @dataclass
 class Text(Node):

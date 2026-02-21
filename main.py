@@ -4,6 +4,9 @@ from src.generator.html_generator import Generator
 
 markdown = """
 **bold with *italics inside* it**
+```python
+print("hello chat")
+```
 """
 lexer = Lexer(markdown)
 tokens = lexer.get_tokens()
