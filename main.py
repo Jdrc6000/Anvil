@@ -1,5 +1,6 @@
 from src.lexer.lexer import Lexer
 from src.parser.parser import Parser
+from src.generator.html_generator import Generator
 
 markdown = """
 *hello*
@@ -12,3 +13,7 @@ print(tokens)
 parser = Parser(tokens)
 tree = parser.parse()
 parser.dump(tree)
+
+generator = Generator(tree)
+html = generator.generate(tree)
+print(html)

@@ -107,4 +107,5 @@ class Lexer:
                 if content:
                     tokens.append(Token(type=TokenType.TEXT, content=content))
         
+        tokens.append(Token(TokenType.EOF))
         return tokens
