@@ -37,12 +37,46 @@ class Lexer:
             content += self.current_char
             self.advance()
         
-        token = Token(
+        return Token(
             type=TokenType.HEADER,
             level=level,
             content=content
         )
-        return token
+    
+    def bold(self):
+        if self.current_char == "*" and self.peek() == "*":
+            self.advance()
+            self.advance()
+        
+        content = ""
+        while self.current_char and not (self.current_char == "*" and self.peek() == "*"):
+            content += self.current_char
+            self.advance()
+        
+        if self.current_char == "*" and self.peek() == "*":
+            self.advance()
+            self.advance()
+        
+        return Token(
+            type=TokenType.BOLD,
+            content=content
+        )
+    
+    def italic(self):
+        self.advance()
+        
+        content = ""
+        while self.current_char and self.current_char != "*":
+            content += self.current_char
+            self.advance()
+        
+        if self.current_char == "*":
+            self.advance()
+        
+        return Token(
+            type=TokenType.ITALIC,
+            content=content
+        )
     
     def get_tokens(self):
         tokens = []
@@ -51,11 +85,26 @@ class Lexer:
             if self.current_char == "#":
                 tokens.append(self.header())
             
+            elif self.current_char == "*" and self.peek() == "*":
+                tokens.append(self.bold())
+            
+            elif self.current_char == "*":
+                tokens.append(self.italic())
+            
             elif self.current_char == "\n":
                 self.advance()
                 continue
             
             elif self.current_char.isspace():
                 self.skip_whitespace()
+            
+            else:
+                content = ""
+                while self.current_char and self.current_char not in "#*\n":
+                    content += self.current_char
+                    self.advance()
+                
+                if content:
+                    tokens.append(Token(type=TokenType.TEXT, content=content))
         
         return tokens

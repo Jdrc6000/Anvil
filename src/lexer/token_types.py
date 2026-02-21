@@ -2,7 +2,7 @@ from enum import Enum, auto
 
 class TokenType(Enum):
     HEADER = auto()
-    BOLT = auto()
+    BOLD = auto()
     ITALIC = auto()
     LINK = auto()
     IMAGE = auto()
@@ -10,3 +10,5 @@ class TokenType(Enum):
     INLINE_CODE = auto()
     LIST_ITEM = auto()
     PARAGRAPH = auto()
+    TEXT = auto()
+    EOF = auto()

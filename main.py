@@ -1,8 +1,14 @@
 from src.lexer.lexer import Lexer
+from src.parser.parser import Parser
 
 markdown = """
-# hello
-## hello level 2
+*hello*
+**hello**
 """
 lexer = Lexer(markdown)
-print(lexer.get_tokens())
+tokens = lexer.get_tokens()
+print(tokens)
+
+parser = Parser(tokens)
+tree = parser.parse()
+parser.dump(tree)
