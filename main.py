@@ -15,5 +15,5 @@ tree = parser.parse()
 parser.dump(tree)
 
 generator = Generator(tree)
-html = generator.generate(tree)
+html = generator.generate()
 print(html)

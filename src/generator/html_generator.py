@@ -4,7 +4,10 @@ class Generator:
     def __init__(self, tree):
         self.tree = tree
     
-    def generate(self, node):
+    def generate(self, node=None):
+        if node is None:
+            node = self.tree
+        
         if isinstance(node, Document):
             return "".join([self.generate(child) for child in node.children])
         

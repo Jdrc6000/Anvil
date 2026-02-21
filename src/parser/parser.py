@@ -46,6 +46,9 @@ class Parser:
         elif token_type == TokenType.ITALIC:
             return self.parse_italic()
         
+        elif token_type == TokenType.TEXT:
+            return self.parse_text()
+        
         else:
             self.advance()
             return None
