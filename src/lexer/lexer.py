@@ -64,7 +64,7 @@ class Lexer:
     def ordered_list_item(self):
         while self.current_char and self.current_char.isdigit():
             self.advance()
-        self.advance
+        self.advance()
         self.skip_whitespace()
         content = self.read_line()
         return Token(

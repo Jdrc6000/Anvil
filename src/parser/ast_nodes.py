@@ -58,7 +58,7 @@ class Image(Node):
 @dataclass
 class CodeBlock(Node):
     language: str
-    children: TypingList[Node]
+    code: TypingList[Node]
 
 @dataclass
 class InlineCode(Node):

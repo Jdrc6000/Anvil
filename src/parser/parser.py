@@ -82,14 +82,6 @@ class Parser:
             self.advance()
             items.append(ListItem(children=self.parse_inline(content)))
         return List(items=items)
-    
-    def parse_list(self):
-        items = []
-        while self.current_token.type == TokenType.LIST_ITEM:
-            content = self.current_token.content
-            self.advance()
-            items.append(ListItem(children=self.parse_inline(content)))
-        return List(items=items)
 
     def parse_ordered_list(self):
         items = []
