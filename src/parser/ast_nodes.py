@@ -12,23 +12,23 @@ class Document:
 @dataclass
 class Heading(Node):
     level: int
-    content: str
+    children: TypingList[Node]
 
 @dataclass
 class Paragraph(Node):
-    content: str
+    children: TypingList[Node]
 
 @dataclass
 class Bold(Node):
-    content: str
+    children: TypingList[Node]
 
 @dataclass
 class Italic(Node):
-    content: str
+    children: TypingList[Node]
 
 @dataclass
 class ListItem(Node):
-    content: str
+    children: TypingList[Node]
 
 @dataclass
 class List(Node):
@@ -47,4 +47,8 @@ class Image(Node):
 @dataclass
 class CodeBlock(Node):
     language: str
-    content: str
+    children: TypingList[Node]
+
+@dataclass
+class Text(Node):
+    value: str

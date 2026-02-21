@@ -43,53 +43,12 @@ class Lexer:
             content=content
         )
     
-    def bold(self):
-        if self.current_char == "*" and self.peek() == "*":
-            self.advance()
-            self.advance()
-        
-        content = ""
-        while self.current_char and not (self.current_char == "*" and self.peek() == "*"):
-            content += self.current_char
-            self.advance()
-        
-        if self.current_char == "*" and self.peek() == "*":
-            self.advance()
-            self.advance()
-        
-        return Token(
-            type=TokenType.BOLD,
-            content=content
-        )
-    
-    def italic(self):
-        self.advance()
-        
-        content = ""
-        while self.current_char and self.current_char != "*":
-            content += self.current_char
-            self.advance()
-        
-        if self.current_char == "*":
-            self.advance()
-        
-        return Token(
-            type=TokenType.ITALIC,
-            content=content
-        )
-    
     def get_tokens(self):
         tokens = []
         
         while self.current_char is not None:
             if self.current_char == "#":
                 tokens.append(self.header())
-            
-            elif self.current_char == "*" and self.peek() == "*":
-                tokens.append(self.bold())
-            
-            elif self.current_char == "*":
-                tokens.append(self.italic())
             
             elif self.current_char == "\n":
                 self.advance()
@@ -100,7 +59,7 @@ class Lexer:
             
             else:
                 content = ""
-                while self.current_char and self.current_char not in "#*\n":
+                while self.current_char and self.current_char != "\n":
                     content += self.current_char
                     self.advance()
                 

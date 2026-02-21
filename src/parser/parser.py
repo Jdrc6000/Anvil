@@ -14,7 +14,6 @@ class Parser:
         if self.pos < len(self.tokens):
             self.current_token = self.tokens[self.pos]
         else:
-            # dont really know what to do with this...
             self.current_token = Token(TokenType.EOF)
     
     def peek(self):
@@ -58,28 +57,28 @@ class Parser:
         self.advance()
         return Heading(
             level=token.level,
-            content=token.content
+            children=[Text(value=token.content)]
         )
     
     def parse_bold(self):
         token = self.current_token
         self.advance()
         return Bold(
-            content=token.content
+            children=[Text(value=token.content)]
         )
     
     def parse_italic(self):
         token = self.current_token
         self.advance()
         return Italic(
-            content=token.content
+            children=[Text(token.content)]
         )
     
     def parse_text(self):
         token = self.current_token
         self.advance()
         return Paragraph(
-            content=token.content
+            children=self.parse_inline(token.content)
         )
     
     def dump(self, node, indent=0):
@@ -91,24 +90,64 @@ class Parser:
                 self.dump(child, indent + 1)
         
         elif isinstance(node, Heading):
-            print(f"{pad}Heading")
-            self.dump(node.level, indent + 1)
-            self.dump(node.content, indent + 1)
-        
+            print(f"{pad}Heading (level={node.level})")
+            for child in node.children:
+                self.dump(child, indent + 1)
+
         elif isinstance(node, Bold):
             print(f"{pad}Bold")
-            self.dump(node.content, indent + 1)
-        
+            for child in node.children:
+                self.dump(child, indent + 1)
+
         elif isinstance(node, Italic):
             print(f"{pad}Italic")
-            self.dump(node.content, indent + 1)
+            for child in node.children:
+                self.dump(child, indent + 1)
         
         elif isinstance(node, Paragraph):
             print(f"{pad}Paragraph")
-            self.dump(node.content, indent + 1)
-        
-        elif isinstance(node, str):
-            print(f"{pad}{node}")
+            for child in node.children:
+                self.dump(child, indent + 1)
+
+        elif isinstance(node, Text):
+            print(f"{pad}Text: {node.value}")
         
         else:
             print(f"{pad}UNK ({node.__class__.__name__})")
+    
+    # i mean, what even bro
+    def parse_inline(self, text):
+        nodes = []
+        i = 0
+
+        while i < len(text):
+
+            # Bold
+            if text[i:i+2] == "**":
+                i += 2
+                start = i
+                while i < len(text) and text[i:i+2] != "**":
+                    i += 1
+                content = text[start:i]
+                i += 2
+                nodes.append(Bold(children=self.parse_inline(content)))
+                continue
+
+            # Italic
+            if text[i] == "*":
+                i += 1
+                start = i
+                while i < len(text) and text[i] != "*":
+                    i += 1
+                content = text[start:i]
+                i += 1
+                nodes.append(Italic(children=self.parse_inline(content)))
+                continue
+
+            # Plain text
+            start = i
+            while i < len(text) and text[i] != "*":
+                i += 1
+            nodes.append(Text(value=text[start:i]))
+
+        return nodes

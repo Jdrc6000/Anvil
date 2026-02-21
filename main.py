@@ -3,8 +3,7 @@ from src.parser.parser import Parser
 from src.generator.html_generator import Generator
 
 markdown = """
-*hello*
-**hello**
+**bold with *italics inside* it**
 """
 lexer = Lexer(markdown)
 tokens = lexer.get_tokens()
